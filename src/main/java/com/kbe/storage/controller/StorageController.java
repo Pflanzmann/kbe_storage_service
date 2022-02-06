@@ -34,8 +34,6 @@ public class StorageController {
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<GifInformation> postNewInfos(@PathVariable(value = "id") UUID id) {
-        GifInformation gifInformation = gifInformationRepository.getById(id);
-        System.out.println(gifInformation.getId());
-        return ResponseEntity.ok(gifInformation);
+        return ResponseEntity.ok(gifInformationRepository.getById(id));
     }
 }
