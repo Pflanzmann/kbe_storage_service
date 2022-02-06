@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -15,7 +16,6 @@ public class StorageController {
 
     GifInformationRepository gifInformationRepository;
 
-    @Autowired
     public StorageController(GifInformationRepository gifInformationRepository) {
         this.gifInformationRepository = gifInformationRepository;
     }
@@ -29,5 +29,13 @@ public class StorageController {
     @ResponseBody
     public ResponseEntity<GifInformation> postNewInfos(@RequestBody GifInformation gifInformation) {
         return ResponseEntity.ok(gifInformationRepository.save(gifInformation));
+    }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<GifInformation> postNewInfos(@PathVariable(value = "id") UUID id) {
+        GifInformation gifInformation = gifInformationRepository.getById(id);
+        System.out.println(gifInformation.getId());
+        return ResponseEntity.ok(gifInformation);
     }
 }

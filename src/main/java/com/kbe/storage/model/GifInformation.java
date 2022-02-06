@@ -1,10 +1,13 @@
 package com.kbe.storage.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class GifInformation {
 
     @Id
@@ -13,14 +16,6 @@ public class GifInformation {
     private String author;
     private String description;
     private String topic;
-
-    public GifInformation(UUID id, String title, String author, String description, String topic) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.topic = topic;
-    }
 
     public GifInformation() {
     }
