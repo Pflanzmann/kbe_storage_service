@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/information")
+@RequestMapping("/api/information")
 public class StorageController {
 
     GifInformationRepository gifInformationRepository;
