@@ -19,6 +19,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation "io.springfox:springfox-boot-starter:3.0.0"
+
+    implementation 'org.apache.commons:commons-csv:1.9.0'
+    implementation 'com.jcraft:jsch:0.1.55'
 }
 
 tasks.named('test') {

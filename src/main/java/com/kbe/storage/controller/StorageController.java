@@ -1,11 +1,15 @@
 package com.kbe.storage.controller;
 
+import com.kbe.storage.helper.CSVImporter;
 import com.kbe.storage.model.GifInformation;
 import com.kbe.storage.repository.GifInformationRepository;
+import com.kbe.storage.sftp.FileTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,10 +18,15 @@ import java.util.UUID;
 @RequestMapping("/api/information")
 public class StorageController {
 
-    GifInformationRepository gifInformationRepository;
+    private GifInformationRepository gifInformationRepository;
+    private FileTransferService fileTransferService;
+    private CSVImporter csvImporter;
 
-    public StorageController(GifInformationRepository gifInformationRepository) {
+    @Autowired
+    public StorageController(GifInformationRepository gifInformationRepository, FileTransferService fileTransferService, CSVImporter csvImporter) {
+        this.fileTransferService = fileTransferService;
         this.gifInformationRepository = gifInformationRepository;
+        this.csvImporter = csvImporter;
     }
 
     @GetMapping
@@ -35,5 +44,20 @@ public class StorageController {
     @ResponseBody
     public ResponseEntity<GifInformation> postNewInfos(@PathVariable(value = "id") UUID id) {
         return ResponseEntity.ok(gifInformationRepository.getById(id));
+    }
+
+    @GetMapping("/export")
+    @ResponseBody
+    public ResponseEntity exportData() {
+        fileTransferService.downloadFile("all_informations.csv", "all_informations.csv");
+
+        try {
+            csvImporter.generateCSV();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        return ResponseEntity.ok().build();
     }
 }
