@@ -48,7 +48,7 @@ public class StorageController {
 
     @GetMapping("/export")
     @ResponseBody
-    public ResponseEntity exportData() {
+    public ResponseEntity<String> exportData() {
         fileTransferService.downloadFile("all_informations.csv", "all_informations.csv");
 
         try {
@@ -58,6 +58,6 @@ public class StorageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Successfully imported");
     }
 }
