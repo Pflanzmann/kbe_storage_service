@@ -60,4 +60,12 @@ public class StorageController {
 
         return ResponseEntity.ok("Successfully imported");
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<String> exportData(@PathVariable(value = "id") UUID id) {
+        gifInformationRepository.deleteById(id);
+
+        return ResponseEntity.ok("Successfully deleted");
+    }
 }
